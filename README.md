@@ -1,142 +1,103 @@
-# 🚦 Traffic Light Controller using Verilog (FSM Based)
+# 🔐 RFID Access Control System (Arduino)
 
-## 📌 Project Overview
+## 📌 Overview
 
-This project implements a **Traffic Light Controller** using **Finite State Machine (FSM)** logic written in Verilog HDL.
-The design simulates real traffic signal behavior for multiple roads with timed transitions between **Green, Yellow, and Red** lights.
+This project is a simple **RFID-based Access Control System** built using an Arduino, RC522 RFID reader, and I2C LCD display.
+It scans RFID cards and checks whether the scanned card is authorized. If the card is valid, the system displays a welcome message along with the user’s name. Otherwise, access is denied.
 
-It is designed for:
+This project is ideal for learning:
 
-* FPGA implementation
-* Digital design learning
-* VLSI / Embedded systems practice
-
----
-
-## ⚙️ Features
-
-* FSM-based state control
-* Configurable timing using counters
-* Separate signals for multiple roads:
-
-  * Main Road 1
-  * Main Turning
-  * Main Road 2
-  * Side Road
-* Fully synthesizable design
-* Behavioral simulation supported
+* RFID communication
+* Arduino SPI interface
+* I2C display control
+* Basic security system logic
 
 ---
 
-## 🧠 Working Principle
+## 🧰 Components Used
 
-The controller works as a **sequential logic system**:
-
-1. Current state stored in register (`p_state`)
-2. Counter generates delay timing
-3. When timer expires → state transitions
-4. Output lights update according to state
-
-State sequence:
-
-```
-S1 → S2 → S3 → S4 → S5 → S6 → repeat
-```
-
-Each state represents a traffic phase.
+* Arduino Nano / Uno
+* RC522 RFID Module
+* 16×2 I2C LCD Display
+* RFID Cards/Tags
+* Jumper wires
 
 ---
 
-## ⏱ Timing Logic
+## ⚙️ Working Principle
 
-Instead of real-time seconds, delays are implemented using clock cycles.
+1. The system continuously waits for an RFID card.
+2. When a card is scanned, its **UID** is read.
+3. The UID is compared with a list of stored authorized UIDs.
+4. If matched:
 
-Example:
+   * LCD shows welcome message with name.
+   * Serial monitor prints “Access Granted”.
+5. If not matched:
 
-```
-sec_7 = 7 clock cycles
-sec_5 = 5 clock cycles
-sec_3 = 3 clock cycles
-sec_2 = 2 clock cycles
-```
-
----
-
-## 💡 Light Encoding
-
-Each light uses 3-bit output:
-
-```
-001 → Green
-010 → Yellow
-100 → Red
-```
+   * LCD shows “Access Denied”.
+   * Serial monitor prints “Access Denied”.
+6. System resets and waits for next scan.
 
 ---
 
-## 📂 Project Structure
+## 🔌 Connections
 
-```
-traffic-light-controller/
-│
-├── traffic_light_controller.v      # Main design module
-├── traffic_light_controller_tb.v   # Testbench
-└── README.md
-```
+### RFID → Arduino
 
----
+* SDA → D10
+* SCK → D13
+* MOSI → D11
+* MISO → D12
+* RST → D9
+* 3.3V → 3V3
+* GND → GND
 
-## ▶ Simulation Instructions (Vivado)
+### LCD → Arduino
 
-1. Add design file → **Design Sources**
-2. Add testbench → **Simulation Sources**
-3. Set testbench as **Top**
-4. Run Behavioral Simulation
-5. Add signals to waveform
-6. Run for desired time
+* SDA → A4
+* SCL → A5
+* VCC → 5V
+* GND → GND
 
 ---
 
-## 🔧 Synthesis Instructions
+## 📚 Libraries Required
 
-1. Set **design module** as Top
-2. Run Synthesis
-3. Run Implementation
-4. Generate Bitstream
+Install from Arduino Library Manager:
 
----
-
-## 🎯 Learning Outcomes
-
-This project demonstrates:
-
-* FSM design
-* Sequential logic
-* Timing control using counters
-* Verilog coding style
-* Simulation vs synthesis concepts
+* MFRC522
+* LiquidCrystal_I2C
+* SPI (built-in)
+* Wire (built-in)
 
 ---
 
-## 📘 Applications
+## ➕ Customization
 
-* Traffic signal systems
-* Industrial controllers
-* Embedded automation
-* Digital control systems
+You can modify the code to:
 
----
-
-## 🏁 Conclusion
-
-This project shows how real-world control systems can be modeled using hardware description languages.
-It is ideal for beginners learning **Verilog, FPGA design, and digital logic systems**.
+* Add more authorized cards
+* Change display messages
+* Connect a relay for door lock
+* Add buzzer or LED indicators
+* Store attendance logs
 
 ---
 
-## 👨‍💻 Author
+## 🚀 Applications
 
-**Your Name**
+* Smart Door Lock
+* RFID Attendance System
+* College/Office Entry System
+* IoT Security Projects
+* Embedded Systems Practice
+
+---
+
+## 📜 License
+
+This project is open-source and free to use for educational and personal projects.
 
 ---
 
